@@ -16,7 +16,7 @@ lotecc
 
 
 
-Convert files between Chinese Simplified and Traditional.
+Convert files between Simplified Chinese and Traditional Chinese.
 
 * Free software: MIT license
 * Documentation: https://lotecc.readthedocs.io.

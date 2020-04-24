@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 """Tests for `lotecc` package."""
+import os
 
 import pytest
 
@@ -28,10 +29,97 @@ def test_content(response):
 
 def test_command_line_interface():
     """Test the CLI."""
+
     runner = CliRunner()
-    result = runner.invoke(cli.main)
-    assert result.exit_code == 0
-    assert 'lotecc.cli.main' in result.output
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
-    assert '--help  Show this message and exit.' in help_result.output
+    assert 'Show this message and exit.' in help_result.output
+
+
+def test_s2t():
+    """Test s2t."""
+
+    input_file = 'tests/testcases/s2t.in'
+    output_file = 'tests/testcases/s2t.out'
+    input_ans = 'tests/testcases/s2t.ans'
+
+    runner = CliRunner()
+    conversion_result = runner.invoke(cli.main, ['-c', 's2t', '-i', input_file, '-o', output_file])
+    assert conversion_result.exit_code == 0
+
+    assert os.path.isfile(output_file)
+
+    with open(output_file, 'r') as f:
+        output_str = f.read().strip()
+    with open(input_ans, 'r') as f:
+        answer_str = f.read().strip()
+
+    assert output_str == answer_str
+
+    try:
+        os.remove(output_file)
+    except FileNotFoundError:
+        pass
+
+
+def test_t2s():
+    """Test t2s."""
+
+    input_file = 'tests/testcases/t2s.in'
+    output_file = 'tests/testcases/t2s.out'
+    input_ans = 'tests/testcases/t2s.ans'
+
+    runner = CliRunner()
+    conversion_result = runner.invoke(cli.main, ['-c', 't2s', '-i', input_file, '-o', output_file])
+    assert conversion_result.exit_code == 0
+
+    assert os.path.isfile(output_file)
+
+    with open(output_file, 'r') as f:
+        output_str = f.read().strip()
+    with open(input_ans, 'r') as f:
+        answer_str = f.read().strip()
+
+    assert output_str == answer_str
+
+    try:
+        os.remove(output_file)
+    except FileNotFoundError:
+        pass
+
+
+def test_lote_s2t():
+    """Test lote s2t"""
+
+    input_dir = 'tests/testcases'
+    output_files = [
+        'tests/testcases/s2t_c.ans',
+        'tests/testcases/s2t_c.in',
+        'tests/testcases/t2s_c.ans',
+        'tests/testcases/t2s_c.in'
+    ]
+    answer_files = [
+        'tests/testcases/s2t.ans',
+        'tests/testcases/s2t.ans',
+        'tests/testcases/t2s.in',
+        'tests/testcases/t2s.in'
+    ]
+
+    runner = CliRunner()
+    conversion_result = runner.invoke(cli.main, ['-i', input_dir, '--suffix', '_c'])
+    assert conversion_result.exit_code == 0
+
+    for idx, output_file in enumerate(output_files):
+        assert os.path.isfile(output_file)
+
+        # with open(output_file, 'r') as f:
+        #     output_str = f.read().strip()
+        # with open(answer_files[idx], 'r') as f:
+        #     answer_str = f.read().strip()
+        #
+        # assert output_str == answer_str
+
+        try:
+            os.remove(output_file)
+        except FileNotFoundError:
+            pass
