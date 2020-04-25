@@ -104,7 +104,6 @@ class LoteccConfig(BaseModel):
         else:
             raise ValueError('<{}> is not a file or directory'.format(self.input))
 
-
     @validator('conversion')
     def valid_conversion(cls, v: str) -> str:
         """
@@ -155,7 +154,7 @@ def lote_chinese_conversion(**kwargs):
             name, extension = os.path.splitext(output_file)
             output_file = name + config.suffix + extension
 
-        if output_str == input_str and output_file == file:
+        if output_str == input_str:
             continue
 
         with open(output_file, 'w', encoding=config.out_enc) as f:
