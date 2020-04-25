@@ -17,8 +17,8 @@ from lotecc.lotecc import lote_chinese_conversion
               help='Can be a .gitignore syntax file. Also can be one or more patterns, separated by commas.')
 @click.option('--suffix', 'suffix', default=None, show_default=False,
               help='Suffix of output filename, add this to keep both the source file and converted file.')
-@click.option('--in-enc', 'in_enc', default='UTF-8', show_default=True, help='Encoding for input.')
-@click.option('--out-enc', 'out_enc', default='UTF-8', show_default=True, help='Encoding for output.')
+@click.option('--in-enc', 'in_enc', default='utf-8', show_default=True, help='Encoding for input.')
+@click.option('--out-enc', 'out_enc', default='utf-8', show_default=True, help='Encoding for output.')
 def main(**kwargs):
     """Convert files between Simplified Chinese and Traditional Chinese.
 

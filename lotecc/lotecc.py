@@ -7,19 +7,34 @@ from opencc import OpenCC
 from pydantic import BaseModel, validator
 
 
-def check_file_exist(filename):
-    dirs = os.path.split(os.getcwd())
-    for i in range(len(dirs), 0, -1):
-        full_path = os.path.join(*dirs[:i], filename)
-        if os.path.isfile(full_path):
-            return full_path
-    return False
+def check_file_exist(filename: str) -> str:
+    """
+    Check if the file exists in the current directory or the upper directory.
+
+    :param filename: type str, the filename.
+    :return: type str, return abspath of the file if exist, else a empty string.
+    """
+    if os.path.isfile(filename):
+        return os.path.abspath(filename)
+    else:
+        dirs = os.path.split(os.getcwd())
+        for i in range(len(dirs), 0, -1):
+            full_path = os.path.join(*dirs[:i], filename)
+            if os.path.isfile(full_path):
+                return full_path
+    return ''
 
 
-def read_ignores(ignore_file='.gitignore'):
+def read_ignores(ignore_file='.gitignore') -> list:
+    """
+    Read ignore patterns from a .gitignore syntax file.
+
+    :param ignore_file: type str, name of the ignore file, may not be the correct path.
+    :return: type list, list of patterns.
+    """
+
     ignore_file_path = check_file_exist(ignore_file)
     if not ignore_file_path:
-        # print(f'Warning: file <{ignore_file}> does not exist')
         return []
 
     with open(ignore_file_path, 'r') as f:
@@ -32,17 +47,19 @@ def read_ignores(ignore_file='.gitignore'):
     return ignores
 
 
-def get_list_of_files(dir_name, ignores):
-    # create a list of file and sub directories
-    # names in the given directory
+def get_list_of_files(dir_name: str, ignores: list) -> list:
+    """
+    Get all files in a directory exclude ignored files.
+
+    :param dir_name: type str, the root directory.
+    :param ignores: type str, the ignore patterns to exclude.
+    :return: type list, list of files exclude ignored files.
+    """
     list_of_file = os.listdir(dir_name)
     all_files = []
-    # Iterate over all the entries
+
     for entry in list_of_file:
-        # Create full path
-        # full_path = os.path.join(dir_name, entry)
         full_path = os.path.abspath(os.path.join(dir_name, entry))
-        # If entry is a directory then get the list of files in this directory
         for pattern in ignores:
             if fnmatch(os.path.split(full_path)[-1], pattern):
                 break
@@ -65,29 +82,51 @@ class LoteccConfig(BaseModel):
     ignore: str = None
 
     @property
-    def ignore_patterns(self):
+    def ignore_patterns(self) -> list:
+        """
+        Read ignore patterns from file, or get from input string.
+
+        :return: type list, .gitignore syntax patterns.
+        """
         return read_ignores(self.ignore) or self.ignore.split(',')
 
     @property
-    def input_files(self):
+    def input_files(self) -> list:
+        """
+        List files filtered by ignore patterns in input directory, or a input file.
+
+        :return: type list, files to convert.
+        """
         if os.path.isdir(self.input_):
-            print(self.ignore_patterns)
             return get_list_of_files(self.input_, self.ignore_patterns)
         elif os.path.isfile(self.input_):
             return [os.path.abspath(self.input_)]
         else:
-            raise ValueError(f'<{self.input_}> is not a file or directory')
+            raise ValueError('<{}> is not a file or directory'.format(self.input_))
 
 
     @validator('conversion')
-    def valid_conversion(cls, v):
+    def valid_conversion(cls, v: str) -> str:
+        """
+        Validate argument of conversion.
+
+        :param v: type str, the value of conversion.
+        :return: type str, the valid value of conversion.
+        :raise: ValueError when conversion is not support.
+        """
         if v.lower() in ['hk2s', 's2hk', 's2t', 's2tw', 's2twp', 't2hk', 't2s', 't2tw', 'tw2s', 'tw2sp']:
             return v.lower()
         else:
-            raise ValueError(f'Error: conversion <{v}> not support')
+            raise ValueError('Error: conversion <{}> not support'.format(v))
 
 
 def lote_chinese_conversion(**kwargs):
+    """
+    Convert files between Simplified Chinese and Traditional Chinese.
+
+    :param kwargs: parameters for model LoteccConfig.
+    :return: None
+    """
     config = LoteccConfig(**kwargs)
     cc = OpenCC(config.conversion)
 
