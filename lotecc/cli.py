@@ -13,6 +13,8 @@ from lotecc.lotecc import lote_chinese_conversion
 @click.option('-o', '--output', 'output', default=None,
               help='Output file or directory. The default is the same as the source file, '
                    'which means that the source file will be overwritten.')
+@click.option('-q', '--quiet', 'quiet', is_flag=True, show_default=True,
+              help='Disable screen output.')
 @click.option('--ignore', 'ignore', default='.gitignore', show_default=True,
               help='Can be a .gitignore syntax file. Also can be one or more patterns, separated by commas.')
 @click.option('--suffix', 'suffix', default=None, show_default=False,
@@ -37,10 +39,15 @@ def main(**kwargs):
     """
 
     try:
-        lote_chinese_conversion(**kwargs)
+        converted = lote_chinese_conversion(**kwargs)
     except Exception as e:
         click.echo(e)
         return 1
+
+    if not kwargs.get('quiet', False):
+        for input_file, output_file in converted:
+            print(input_file + '\t-->\t' + output_file)
+
     return 0
 
 

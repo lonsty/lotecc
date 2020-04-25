@@ -9,7 +9,7 @@ from pydantic import BaseModel, validator
 
 def check_file_exist(filename: str) -> str:
     """
-    Check if the file exists in the current directory or the upper directory.
+    Check if the file exists in the current directory or the upper directories.
 
     :param filename: type str, the filename.
     :return: type str, return abspath of the file if exist, else a empty string.
@@ -29,8 +29,9 @@ def read_ignores(ignore_file: str) -> list:
     """
     Read ignore patterns from a .gitignore syntax file.
 
-    :param ignore_file: type str, name of the ignore file, may not be the correct path.
-    :return: type list, list of patterns.
+    :param ignore_file: type str, just the name of the ignore file,
+                        may not be the correct path.
+    :return: type list, a list of patterns.
     """
 
     ignore_file_path = check_file_exist(ignore_file)
@@ -41,7 +42,8 @@ def read_ignores(ignore_file: str) -> list:
         lines = f.readlines()
 
     pt = re.compile(r'\S')
-    ignores = [l.strip().replace('/', '') for l in lines if pt.match(l) and not l.strip().startswith('#')]
+    ignores = [l.strip().replace('/', '') for l in lines
+               if pt.match(l) and not l.strip().startswith('#')]
     ignores.append('.git')
 
     return ignores
@@ -49,11 +51,11 @@ def read_ignores(ignore_file: str) -> list:
 
 def get_list_of_files(dir_name: str, ignores: list) -> list:
     """
-    Get all files in a directory exclude ignored files.
+    Get all files in a directory excluding ignored files.
 
     :param dir_name: type str, the root directory.
-    :param ignores: type str, the ignore patterns to exclude.
-    :return: type list, list of files exclude ignored files.
+    :param ignores: type str, the patterns to exclude.
+    :return: type list, a list of files excluding ignored files.
     """
     list_of_file = os.listdir(dir_name)
     all_files = []
@@ -111,9 +113,10 @@ class LoteccConfig(BaseModel):
 
         :param v: type str, the value of conversion.
         :return: type str, the valid value of conversion.
-        :raise: ValueError when conversion is not support.
+        :raise: raise ValueError when conversion is not supported.
         """
-        if v.lower() in ['hk2s', 's2hk', 's2t', 's2tw', 's2twp', 't2hk', 't2s', 't2tw', 'tw2s', 'tw2sp']:
+        if v.lower() in ['hk2s', 's2hk', 's2t', 's2tw', 's2twp',
+                         't2hk', 't2s', 't2tw', 'tw2s', 'tw2sp']:
             return v.lower()
         else:
             raise ValueError('Error: conversion <{}> not support'.format(v))
@@ -124,29 +127,31 @@ def lote_chinese_conversion(**kwargs):
     Convert files between Simplified Chinese and Traditional Chinese.
 
     :param conversion: type str, default 's2t', the conversion method.
-    :param input: type str, default '.', input file or directory.
-    :param output: type str, default None, output file or directory
+    :param input: type str, default '.', an input file or a directory.
+    :param output: type str, default None, an output file or a directory.
     :param in_enc: type str, default 'utf-8', encoding for input.
     :param out_enc: type str, default 'utf-8', encoding for output.
     :param suffix: type str, default None, suffix of output filename.
     :param ignore: type str, default '.gitignore', a .gitignore syntax file,
                    or patterns, separated by commas.
-    :return: None
+    :return: type list, a list of tuples, tuple contains source file and converted file.
     """
     config = LoteccConfig(**kwargs)
     cc = OpenCC(config.conversion)
+    converted = []
 
-    for file in config.input_files:
-        with open(file, encoding=config.in_enc) as f:
+    for input_file in config.input_files:
+        with open(input_file, encoding=config.in_enc) as f:
             input_str = f.read()
 
         output_str = cc.convert(input_str)
 
-        output_file = file
+        output_file = input_file
 
         if config.output:
             if os.path.isdir(config.output):
-                output_file = os.path.abspath(os.path.join(config.output, os.path.basename(file)))
+                output_file = os.path.abspath(os.path.join(config.output,
+                                                           os.path.basename(input_file)))
             else:
                 output_file = os.path.abspath(config.output)
 
@@ -159,3 +164,6 @@ def lote_chinese_conversion(**kwargs):
 
         with open(output_file, 'w', encoding=config.out_enc) as f:
             f.write(output_str)
+            converted.append((input_file, output_file))
+
+    return converted
