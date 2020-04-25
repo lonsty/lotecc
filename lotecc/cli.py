@@ -8,7 +8,7 @@ from lotecc.lotecc import lote_chinese_conversion
 @click.command()
 @click.option('-c', '--conversion', 'conversion', default='s2t', show_default=True,
               help='Conversion method between Simplified Chinese and Traditional Chinese.')
-@click.option('-i', '--input', 'input_', default='.',
+@click.option('-i', '--input', 'input', default='.',
               help='Input file or directory. The default is current dir.')
 @click.option('-o', '--output', 'output', default=None,
               help='Output file or directory. The default is the same as the source file, '

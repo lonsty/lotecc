@@ -1,4 +1,5 @@
 """Top-level package for lotecc."""
+from lotecc.lotecc import lote_chinese_conversion
 
 __author__ = """Allen Shaw"""
 __email__ = 'lonsty@sina.com'

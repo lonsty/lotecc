@@ -25,7 +25,7 @@ def check_file_exist(filename: str) -> str:
     return ''
 
 
-def read_ignores(ignore_file='.gitignore') -> list:
+def read_ignores(ignore_file: str) -> list:
     """
     Read ignore patterns from a .gitignore syntax file.
 
@@ -74,12 +74,12 @@ def get_list_of_files(dir_name: str, ignores: list) -> list:
 
 class LoteccConfig(BaseModel):
     conversion: str = 's2t'
-    input_: str = '.'
+    input: str = '.'
     output: str = None
-    in_enc: str = 'UTF-8'
-    out_enc: str = 'UTF-8'
+    in_enc: str = 'utf-8'
+    out_enc: str = 'utf-8'
     suffix: str = None
-    ignore: str = None
+    ignore: str = '.gitignore'
 
     @property
     def ignore_patterns(self) -> list:
@@ -97,12 +97,12 @@ class LoteccConfig(BaseModel):
 
         :return: type list, files to convert.
         """
-        if os.path.isdir(self.input_):
-            return get_list_of_files(self.input_, self.ignore_patterns)
-        elif os.path.isfile(self.input_):
-            return [os.path.abspath(self.input_)]
+        if os.path.isdir(self.input):
+            return get_list_of_files(self.input, self.ignore_patterns)
+        elif os.path.isfile(self.input):
+            return [os.path.abspath(self.input)]
         else:
-            raise ValueError('<{}> is not a file or directory'.format(self.input_))
+            raise ValueError('<{}> is not a file or directory'.format(self.input))
 
 
     @validator('conversion')
@@ -124,7 +124,14 @@ def lote_chinese_conversion(**kwargs):
     """
     Convert files between Simplified Chinese and Traditional Chinese.
 
-    :param kwargs: parameters for model LoteccConfig.
+    :param conversion: type str, default 's2t', the conversion method.
+    :param input: type str, default '.', input file or directory.
+    :param output: type str, default None, output file or directory
+    :param in_enc: type str, default 'utf-8', encoding for input.
+    :param out_enc: type str, default 'utf-8', encoding for output.
+    :param suffix: type str, default None, suffix of output filename.
+    :param ignore: type str, default '.gitignore', a .gitignore syntax file,
+                   or patterns, separated by commas.
     :return: None
     """
     config = LoteccConfig(**kwargs)
