@@ -25,12 +25,16 @@ Convert files between Simplified Chinese and Traditional Chinese.
 Features
 --------
 
-* TODO
+* File or Project: can convert a single file or files in your project
+* Patterns Ignore: use .gitignore syntax to exclude unwanted files
 
 Credits
 -------
 
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
+* The implement of Simplified and Traditional Chinese conversion mainly depends on `opencc-python`_.
+
+* This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+.. _`opencc-python`: https://github.com/yichen0831/opencc-python
