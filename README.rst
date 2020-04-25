@@ -1,5 +1,5 @@
 ======
-lotecc
+LoteCC
 ======
 
 
@@ -16,7 +16,7 @@ lotecc
 
 
 
-Convert files between Simplified Chinese and Traditional Chinese.
+**LoteCC** is a tool to convert files between Simplified Chinese and Traditional Chinese.
 
 * Free software: MIT license
 * Documentation: https://lotecc.readthedocs.io.
@@ -25,13 +25,13 @@ Convert files between Simplified Chinese and Traditional Chinese.
 Features
 --------
 
-* File or Project: can convert a single file or files in your project
-* Patterns Ignore: use .gitignore syntax to exclude unwanted files
+* File or whole project: can convert a single file or all files in your project.
+* Patterns to ignore: use .gitignore syntax to exclude unwanted files.
 
 Credits
 -------
 
-* The implement of Simplified and Traditional Chinese conversion mainly depends on `opencc-python`_.
+* The implement of Simplified and Traditional Chinese conversion depends on `opencc-python`_.
 
 * This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
 

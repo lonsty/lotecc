@@ -2,26 +2,29 @@
 Usage
 =====
 
-**lotecc** is a command line tool to convert files between Simplified Chinese and Traditional Chinese.
-
-------------
-
-Convert all files in current directory and subdirectories from Simplified Chinese to Traditional Chinese, exclude files that match patterns in ``.gitignore``::
+To use ``lotecc`` in terminal::
 
     $ lotecc
 
-Above command is equal to ``$ lotecc -c s2t -i . --ignore .gitignore``. The meaning of each argument is described below:
+Above command is equal to ``$ lotecc -c s2t -i . --ignore .gitignore``. Which convert all files in current directory and subdirectories from Simplified Chinese to Traditional Chinese, excluding files matching the pattern in ``.gitignore``:
 
 - ``-c s2t``: conversion is Simplified Chinese to Traditional Chinese
 - ``-i .``: input is current directory
-- ``--ignore .gitignore``: convert all files exclude match patterns in ``.gitignore``
+- ``--ignore .gitignore``: files excluding files matching the pattern in ``.gitignore``
 
+To use ``lotecc`` in a project::
 
-You can get helps by type ``lotecc --help`` in terminal::
+    from lotecc import lote_chinese_conversion as lotecc
 
-    Usage: lotecc [OPTIONS]
+    lotecc(conversion='s2t',
+           input='.',
+           output=None,
+           in_enc='utf-8',
+           out_enc='utf-8',
+           suffix=None,
+           ignore='.gitignore')
 
-      Convert files between Simplified Chinese and Traditional Chinese.
+You can get helps by type ``$ lotecc --help`` in terminal::
 
     Options:
       -c, --conversion TEXT  Conversion method between Simplified Chinese and
@@ -30,6 +33,7 @@ You can get helps by type ``lotecc --help`` in terminal::
       -o, --output TEXT      Output file or directory. The default is the same as
                              the source file, which means that the source file
                              will be overwritten.
+      -q, --quiet            Disable screen output.  [default: False]
       --ignore TEXT          Can be a .gitignore syntax file. Also can be one or
                              more patterns, separated by commas.  [default:
                              .gitignore]

@@ -31,7 +31,7 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    description="Python Boilerplate contains all the boilerplate you need to create a Python package.",
+    description="Convert files between Simplified Chinese and Traditional Chinese.",
     entry_points={
         'console_scripts': [
             'lotecc=lotecc.cli:main',
