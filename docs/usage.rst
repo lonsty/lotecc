@@ -1,8 +1,7 @@
-=====
 Usage
 =====
 
-To use ``lotecc`` in terminal::
+1. To use ``lotecc`` in terminal::
 
     $ lotecc
 
@@ -12,7 +11,7 @@ Above command is equal to ``$ lotecc -c s2t -i . --ignore .gitignore``. Which co
 - ``-i .``: input is current directory
 - ``--ignore .gitignore``: files excluding files matching the pattern in ``.gitignore``
 
-To use ``lotecc`` in a project::
+2. To use ``lotecc`` in a project::
 
     from lotecc import lote_chinese_conversion as lotecc
 
@@ -44,7 +43,7 @@ You can get helps by type ``$ lotecc --help`` in terminal::
       --help                 Show this message and exit.
 
 Supported conversions
-=====================
+^^^^^^^^^^^^^^^^^^^^^
 
 - ``hk2s``: Traditional Chinese (Hong Kong standard) to Simplified Chinese\n
 - ``s2hk``: Simplified Chinese to Traditional Chinese (Hong Kong standard)\n

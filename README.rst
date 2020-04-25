@@ -21,15 +21,16 @@ LoteCC
 * Free software: MIT license
 * Documentation: https://lotecc.readthedocs.io.
 
-
 Features
---------
+========
 
 * File or whole project: can convert a single file or all files in your project.
 * Patterns to ignore: use .gitignore syntax to exclude unwanted files.
 
+.. include:: docs/usage.rst
+
 Credits
--------
+=======
 
 * The implement of Simplified and Traditional Chinese conversion depends on `opencc-python`_.
 
