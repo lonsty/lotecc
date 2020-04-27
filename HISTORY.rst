@@ -2,8 +2,15 @@
 History
 =======
 
+0.1.1 (2020-04-27)
+==================
+
+Bug fixed:
+
+* Handle error of using incorrect encoding to open a file.
+
 0.1.0 (2020-04-25)
-------------------
+==================
 
 First release on PyPI.
 
