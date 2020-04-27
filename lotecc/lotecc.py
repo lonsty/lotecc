@@ -104,7 +104,7 @@ class LoteccConfig(BaseModel):
         elif os.path.isfile(self.input):
             return [os.path.abspath(self.input)]
         else:
-            raise ValueError('<{}> is not a file or directory'.format(self.input))
+            raise ValueError(f'<{self.input}> is not a file or directory')
 
     @validator('conversion')
     def valid_conversion(cls, v: str) -> str:
@@ -119,7 +119,7 @@ class LoteccConfig(BaseModel):
                          't2hk', 't2s', 't2tw', 'tw2s', 'tw2sp']:
             return v.lower()
         else:
-            raise ValueError('Error: conversion <{}> not support'.format(v))
+            raise ValueError(f'Error: conversion <{v}> not support')
 
 
 def lote_chinese_conversion(**kwargs):
