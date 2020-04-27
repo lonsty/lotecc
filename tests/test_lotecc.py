@@ -145,3 +145,13 @@ def test_lotecc_s2t():
             os.remove(output_file)
         except FileNotFoundError:
             pass
+
+
+def test_lotecc_bin():
+    input_file = 'tests/testcases/404.png'
+
+    runner = CliRunner()
+    conversion_result = runner.invoke(cli.main, ['-i', input_file])
+
+    assert conversion_result.exit_code == 0
+    assert conversion_result.output == ''

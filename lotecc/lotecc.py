@@ -141,8 +141,11 @@ def lote_chinese_conversion(**kwargs):
     converted = []
 
     for input_file in config.input_files:
-        with open(input_file, encoding=config.in_enc) as f:
-            input_str = f.read()
+        try:
+            with open(input_file, encoding=config.in_enc) as f:
+                input_str = f.read()
+        except UnicodeDecodeError:
+            continue
 
         output_str = cc.convert(input_str)
 
