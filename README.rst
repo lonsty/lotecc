@@ -7,7 +7,7 @@ LoteCC
         :target: https://pypi.python.org/pypi/lotecc
 
 .. image:: https://img.shields.io/travis/lonsty/lotecc.svg
-        :target: https://travis-ci.com/lonsty/lotecc
+        :target: https://travis-ci.org/lonsty/lotecc
 
 .. image:: https://readthedocs.org/projects/lotecc/badge/?version=latest
         :target: https://lotecc.readthedocs.io/en/latest/?badge=latest
