@@ -11,7 +11,7 @@ def check_file_exist(filename: str) -> str:
     Check if the file exists in the current directory or the upper directories.
 
     :param filename: str, the filename.
-    :return: str, return abspath of the file if exist, else a empty string.
+    :return: str, a abspath of the file if exist, else a empty string.
     """
     if os.path.isfile(filename):
         return os.path.abspath(filename)
@@ -28,9 +28,8 @@ def read_ignores(ignore_file: str) -> list:
     """
     Read ignore patterns from a .gitignore syntax file.
 
-    :param ignore_file: str, just the name of the ignore file,
-                        may not be the correct path.
-    :return: list, a list of patterns.
+    :param ignore_file: str, the ignore file, may not be the correct path.
+    :return: list, the ignore patterns.
     """
 
     ignore_file_path = check_file_exist(ignore_file)
@@ -54,7 +53,7 @@ def get_list_of_files(dir_name: str, ignores: list) -> list:
 
     :param dir_name: str, the root directory.
     :param ignores: str, the patterns to exclude.
-    :return: list, a list of files excluding ignored files.
+    :return: list, the files excluding ignored files.
     """
     list_of_file = os.listdir(dir_name)
     all_files = []
@@ -87,17 +86,17 @@ class LoteccConfig(BaseModel):
         """
         Read ignore patterns from file, or get from input string.
 
-        :return: list, .gitignore syntax patterns.
+        :return: list, the .gitignore syntax patterns.
         """
         return read_ignores(self.ignore) or self.ignore.split(',')
 
     @property
     def input_files(self) -> list:
         """
-        List files filtered by ignore patterns in input directory,
+        List files filtered by ignore patterns in the input directory,
     or a input file.
 
-        :return: list, files to convert.
+        :return: list, the files to convert.
         """
         if os.path.isdir(self.input):
             return get_list_of_files(self.input, self.ignore_patterns)
@@ -113,7 +112,7 @@ class LoteccConfig(BaseModel):
 
         :param v: str, the value of conversion.
         :return: str, the valid value of conversion.
-        :raise: raise ValueError when conversion is not supported.
+        :raise: raise a ValueError if conversion is not supported.
         """
         if v.lower() in ['hk2s', 's2hk', 's2t', 's2tw', 's2twp',
                          't2hk', 't2s', 't2tw', 'tw2s', 'tw2sp']:
@@ -134,7 +133,7 @@ def lote_chinese_conversion(**kwargs):
     :param suffix: str, default None, suffix of output filename.
     :param ignore: str, default '.gitignore', a .gitignore syntax file,
                    or patterns, separated by commas.
-    :return: list, a list of tuples, tuple contains source file and
+    :return: list, list of tuples, a tuple contains source file and
              converted file.
     """
     config = LoteccConfig(**kwargs)

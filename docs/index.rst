@@ -1,5 +1,5 @@
-Welcome to lotecc's documentation!
-======================================
+Convert files between Simplified Chinese and Traditional Chinese
+================================================================
 
 .. toctree::
    :maxdepth: 2

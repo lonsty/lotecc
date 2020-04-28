@@ -1,4 +1,7 @@
-"""Console script for lotecc."""
+"""
+Console script for lotecc, to convert files between Simplified Chinese
+and Traditional Chinese
+"""
 import sys
 import click
 
